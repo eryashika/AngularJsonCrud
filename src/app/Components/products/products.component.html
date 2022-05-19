@@ -1,0 +1,63 @@
+<h3 class="text-center">{{title}}</h3>
+<br>
+<div class="container">
+<div class="row">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8 text-center">
+    <input placeholder="Search Products (try levis...)" class="form-control" type="text" 
+    [(ngModel)] = "searchText">
+    <br/>
+    <a routerLink="add" class="btn btn-sm btn-success mb-2 mr-1">Add Product</a>
+    <button (click)="refresh()" class="btn btn-sm btn-warning mb-2 mr-1">
+        Refresh Products
+    </button>
+  </div>
+  <div class="col-md-2">
+</div>
+</div>
+<br>
+<div >
+    <table class="table table-striped table-dark table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of products | filter : searchText">
+                <td>{{p.id}}</td>
+                <td><img src="{{p.imageUrl}}" 
+                    [style.width.px]="width" [style.margin.px]="margin"></td>
+                <td [innerHTML]="p.name | highlight: searchText">{{p.name}}</td>
+                <td>{{p.quantity}}</td>
+                <td>{{p.price}}</td>
+                <td style="white-space: nowrap">
+                    <a routerLink="edit/{{p.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                    <button (click)="deleteProduct(p.id)" class="btn btn-sm btn-danger btn-delete-product" [disabled]="p.isDeleting">
+                        <span *ngIf="p.isDeleting" class="spinner-border spinner-border-sm"></span>
+                        <span *ngIf="!p.isDeleting">Delete</span>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="!products">
+                <td colspan="4" class="text-center">
+                    <span class="spinner-border spinner-border-lg align-center"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+   
+</div>
+<!-- <div>
+    <select class="form-control" (change)="onChange($event)">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+</div> -->
+</div>
